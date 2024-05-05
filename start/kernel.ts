@@ -26,6 +26,7 @@ server.use([
   () => import('#apps/shared/middleware/container_bindings_middleware'),
   () => import('#apps/shared/middleware/force_json_response_middleware'),
   () => import('@adonisjs/cors/cors_middleware'),
+  () => import('#apps/shared/middleware/req_res_logger'),
 ])
 
 /**
