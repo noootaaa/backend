@@ -3,7 +3,7 @@ import PermissionResolverBuilder from '#apps/shared/services/permissions/permiss
 
 export default class PermissionResolver {
   async getResourceAccess(data: ResourceAccess, key: string): Promise<string[]> {
-    return data[key].roles ?? []
+    return data[key]?.roles ?? []
   }
 
   createResolve(resourceAccess: ResourceAccess, key: string) {

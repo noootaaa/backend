@@ -17,4 +17,10 @@ export default class AuthenticationController {
 
     return response.send(token)
   }
+
+  async callback({ request }: HttpContext) {
+    console.log(request.all())
+
+    return request
+  }
 }

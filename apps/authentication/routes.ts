@@ -6,5 +6,6 @@ const AuthenticationController = () =>
 router
   .group(() => {
     router.post('/login', [AuthenticationController, 'login'])
+    router.get('/callback', [AuthenticationController, 'callback'])
   })
   .prefix('authentication')
