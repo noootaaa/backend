@@ -6,7 +6,10 @@ import { Infer } from '@vinejs/vine/types'
  * a new organization.ts.
  */
 export const createOrganizationValidator = vine.compile(
-  vine.object({})
+  vine.object({
+    name: vine.string(),
+    description: vine.string().optional(),
+  })
 )
 
 /**
@@ -25,6 +28,14 @@ export const getOrganizationsValidator = vine.compile(
   })
 )
 
+export const getCustomersByOrganizationIdValidator = vine.compile(
+  vine.object({
+    page: vine.number().optional(),
+    limit: vine.number().optional(),
+  })
+)
+
 export type CreateOrganizationSchema = Infer<typeof createOrganizationValidator>
 export type UpdateOrganizationSchema = Infer<typeof updateOrganizationValidator>
 export type GetOrganizationsSchema = Infer<typeof getOrganizationsValidator>
+export type GetCustomersByOrganizationIdSchema = Infer<typeof getCustomersByOrganizationIdValidator>

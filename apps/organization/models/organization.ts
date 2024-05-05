@@ -3,6 +3,7 @@ import { DateTime } from 'luxon'
 import { randomUUID } from 'node:crypto'
 import User from '#apps/user/models/user'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import Customer from '#apps/customers/models/customer'
 
 export default class Organization extends BaseModel {
   @column({ isPrimary: true })
@@ -23,6 +24,9 @@ export default class Organization extends BaseModel {
   @hasMany(() => User)
   declare users: HasMany<typeof User>
 
+  @hasMany(() => Customer)
+  declare customers: HasMany<typeof Customer>
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
@@ -31,8 +35,6 @@ export default class Organization extends BaseModel {
 
   @beforeCreate()
   static async generateUuid(model: Organization) {
-    if (model.$dirty.id) {
-      model.id = randomUUID()
-    }
+    model.id = randomUUID()
   }
 }
