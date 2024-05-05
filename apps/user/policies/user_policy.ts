@@ -19,7 +19,7 @@ export default class UserPolicy extends BasePolicy {
 
   async before() {
     const isAdmin = await this.permissionResolver
-      .createResolve(this.payload.resourceAccess, 'api')
+      .createResolve(this.payload.resource_access, 'api')
       .verifyAccess('admin')
 
     if (isAdmin) return true

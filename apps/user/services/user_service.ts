@@ -9,4 +9,8 @@ export default class UserService {
   async findById(id: string) {
     return User.query().where('id', id).firstOrFail()
   }
+
+  async findByOidcId(oidcId: string) {
+    return User.query().where('oidc_id', oidcId).firstOrFail()
+  }
 }
