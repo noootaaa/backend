@@ -47,7 +47,16 @@ export default defineConfig({
   | List of modules to import before starting the application.
   |
   */
-  preloads: [() => import('#start/routes'), () => import('#start/kernel'), () => import('#apps/user/routes'), () => import('#apps/authentication/routes'), () => import('#apps/organization/routes'), () => import('#apps/subscriptions/routes'), () => import('#apps/customers/routes')],
+  preloads: [
+    () => import('#start/routes'),
+    () => import('#start/kernel'),
+    () => import('#apps/user/routes'),
+    () => import('#apps/authentication/routes'),
+    () => import('#apps/organization/routes'),
+    () => import('#apps/subscriptions/routes'),
+    () => import('#apps/customers/routes'),
+    () => import('#apps/health/routes'),
+  ],
 
   /*
   |--------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 import app from '@adonisjs/core/services/app'
 import { HttpContext, ExceptionHandler } from '@adonisjs/core/http'
 import { errors as authErrors } from '@adonisjs/auth'
+import HealthException from '#apps/shared/exceptions/health_exception'
 
 export default class HttpExceptionHandler extends ExceptionHandler {
   /**
@@ -18,6 +19,10 @@ export default class HttpExceptionHandler extends ExceptionHandler {
       ctx.response.status(401).send({
         errors: [{ message: error.message }],
       })
+      return
+    }
+    if (error instanceof HealthException) {
+      ctx.response.status(500).send(error.handle())
       return
     }
     return super.handle(error, ctx)
