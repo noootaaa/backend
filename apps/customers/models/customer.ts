@@ -32,7 +32,10 @@ export default class Customer extends BaseModel {
   @column()
   declare referentId: string
 
-  @belongsTo(() => User)
+  @belongsTo(() => User, {
+    localKey: 'id',
+    foreignKey: 'referentId',
+  })
   declare referent: BelongsTo<typeof User>
 
   @belongsTo(() => Organization)

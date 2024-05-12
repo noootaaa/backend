@@ -34,7 +34,8 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare organization: BelongsTo<typeof Organization>
 
   @hasMany(() => Customer, {
-    foreignKey: 'referentId',
+    foreignKey: 'referent_id',
+    localKey: 'id',
   })
   declare customers: HasMany<typeof Customer>
 
