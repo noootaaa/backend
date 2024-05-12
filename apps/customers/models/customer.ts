@@ -5,6 +5,7 @@ import Organization from '#apps/organization/models/organization'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import CustomerStatus from '#apps/customers/models/customer_status'
 import CustomerContact from '#apps/customers/models/customer_contact'
+import User from '#apps/user/models/user'
 
 export default class Customer extends BaseModel {
   @column({ isPrimary: true })
@@ -27,6 +28,15 @@ export default class Customer extends BaseModel {
 
   @column()
   declare customerContactId: string
+
+  @column()
+  declare referentId: string
+
+  @belongsTo(() => User, {
+    localKey: 'id',
+    foreignKey: 'referentId',
+  })
+  declare referent: BelongsTo<typeof User>
 
   @belongsTo(() => Organization)
   declare organization: BelongsTo<typeof Organization>
