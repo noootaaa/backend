@@ -9,6 +9,7 @@ export default class extends BaseSchema {
 
       table.string('firstname')
       table.string('lastname')
+      table.string('type')
       table
         .string('organization_id')
         .nullable()

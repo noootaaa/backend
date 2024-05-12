@@ -32,6 +32,7 @@ export const getCustomersByOrganizationIdValidator = vine.compile(
   vine.object({
     page: vine.number().optional(),
     limit: vine.number().optional(),
+    type: vine.string().optional(),
   })
 )
 

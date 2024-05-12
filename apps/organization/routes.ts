@@ -15,8 +15,14 @@ router.group(() => {
       router
         .group(() => {
           router.get('/', [OrganizationController, 'show'])
-          router.get('/customers', [OrganizationCustomerController, 'index'])
           router.delete('/', [OrganizationController, 'delete'])
+
+          router
+            .group(() => {
+              router.get('/', [OrganizationCustomerController, 'index'])
+              router.post('/', [OrganizationCustomerController, 'create'])
+            })
+            .prefix('/customers')
         })
         .prefix('/:organizationId')
       router.post('/', [OrganizationController, 'create'])

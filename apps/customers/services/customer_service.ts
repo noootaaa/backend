@@ -11,14 +11,26 @@ export default class CustomerService {
       .paginate(page, limit)
   }
 
-  async findByOrganizationId({ page = 1, limit = 10 }: GetCustomersByOrganizationIdSchema, organizationId: string) {
+  async findByOrganizationId({ page = 1, limit = 10, type }: GetCustomersByOrganizationIdSchema, organizationId: string) {
     return Customer.query()
       .whereHas('organization', (query) => {
         query.where('organization_id', organizationId)
       })
+      .if(type, (query) => {
+        query.where('type', type!)
+      })
       .preload('customerContact')
       .preload('customerStatus')
       .paginate(page, limit)
+  }
+
+  async findById(customerId: string) {
+    return Customer.query()
+      .where('id', customerId)
+      .preload('customerContact')
+      .preload('customerStatus')
+      .preload('organization')
+      .firstOrFail()
   }
 
   async create(payload: CreateCustomersSchema) {

@@ -17,6 +17,9 @@ export default class Customer extends BaseModel {
   declare lastname: string
 
   @column()
+  declare type: string
+
+  @column()
   declare organizationId: string
 
   @column()

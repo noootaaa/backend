@@ -17,7 +17,7 @@ export default class OrganizationsController {
   /**
    * Display a list of resource
    */
-  async index({ request, bouncer }: HttpContext) {
+  async index({ bouncer, request }: HttpContext) {
     await bouncer.with('OrganizationPolicy').authorize('view' as never)
     const getOrganizationsSchema = await request.validateUsing(getOrganizationsValidator)
 

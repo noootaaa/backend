@@ -5,9 +5,10 @@ import {
 import Organization from '#apps/organization/models/organization'
 import User from '#apps/user/models/user'
 import db from '@adonisjs/lucid/services/db'
+import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
 
 export default class OrganizationService {
-  async findAll({ page = 1, limit = 10, user = false }: GetOrganizationsSchema) {
+  async findAll({ page = 1, limit = 10, user = false }: GetOrganizationsSchema): Promise<ModelPaginatorContract<Organization>> {
     return Organization.query()
       .if(user, (query) => {
         query.preload('users')

@@ -1,9 +1,10 @@
-import { BaseModel, beforeCreate, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, belongsTo, column, hasMany, hasOne } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 import { randomUUID } from 'node:crypto'
 import User from '#apps/user/models/user'
-import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import type { BelongsTo, HasMany, HasOne } from '@adonisjs/lucid/types/relations'
 import Customer from '#apps/customers/models/customer'
+import Subscription from '#apps/subscriptions/models/subscription'
 
 export default class Organization extends BaseModel {
   @column({ isPrimary: true })
@@ -26,6 +27,9 @@ export default class Organization extends BaseModel {
 
   @hasMany(() => Customer)
   declare customers: HasMany<typeof Customer>
+
+  @hasOne(() => Subscription)
+  declare subscription: HasOne<typeof Subscription>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
