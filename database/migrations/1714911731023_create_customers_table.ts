@@ -28,6 +28,12 @@ export default class extends BaseSchema {
         .references('id')
         .inTable('customer_contacts')
         .onUpdate('CASCADE')
+      table.
+        string('referent_id')
+        .nullable()
+        .references('id')
+        .inTable('users')
+        .onUpdate('CASCADE')
 
       table.timestamp('created_at')
       table.timestamp('updated_at')
