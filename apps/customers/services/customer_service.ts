@@ -30,6 +30,7 @@ export default class CustomerService {
       .preload('customerContact')
       .preload('customerStatus')
       .preload('organization')
+      .preload('referent')
       .firstOrFail()
   }
 
