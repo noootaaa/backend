@@ -1,6 +1,7 @@
 import Customer from '#apps/customers/models/customer'
-import { CreateCustomersSchema, GetCustomersSchema } from "#apps/customers/validators/customer";
-import { GetCustomersByOrganizationIdSchema } from "#apps/organization/validators/organization";
+import type { CreateCustomersSchema, GetCustomersSchema, UpdateCustomersSchema } from '#apps/customers/validators/customer'
+import type { GetCustomersByOrganizationIdSchema } from '#apps/organization/validators/organization'
+import type { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
 
 export default class CustomerService {
   async findAll({ page = 1, limit = 10 }: GetCustomersSchema) {
@@ -11,7 +12,7 @@ export default class CustomerService {
       .paginate(page, limit)
   }
 
-  async findByOrganizationId({ page = 1, limit = 10, type }: GetCustomersByOrganizationIdSchema, organizationId: string) {
+  async findByOrganizationId({ page = 1, limit = 10, type }: GetCustomersByOrganizationIdSchema, organizationId: string): Promise<ModelPaginatorContract<Customer>> {
     return Customer.query()
       .whereHas('organization', (query) => {
         query.where('organization_id', organizationId)
@@ -24,7 +25,7 @@ export default class CustomerService {
       .paginate(page, limit)
   }
 
-  async findById(customerId: string) {
+  async findById(customerId: string): Promise<Customer> {
     return Customer.query()
       .where('id', customerId)
       .preload('customerContact')
@@ -34,7 +35,20 @@ export default class CustomerService {
       .firstOrFail()
   }
 
-  async create(payload: CreateCustomersSchema) {
+  async create(payload: CreateCustomersSchema): Promise<Customer> {
     return Customer.create(payload)
+  }
+  
+  async updateById(customerId: string, payload: UpdateCustomersSchema): Promise<Customer> {
+    const customer = await this.findById(customerId)
+
+    return customer.merge(payload)
+      .save()
+  }
+
+  async deleteById(customerId: string): Promise<void> {
+    const customer = await this.findById(customerId)
+
+    return customer.delete()
   }
 }

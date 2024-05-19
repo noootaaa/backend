@@ -20,7 +20,12 @@ export const createCustomerValidator = vine.compile(
  * an existing customer.ts.
  */
 export const updateCustomerValidator = vine.compile(
-  vine.object({})
+  vine.object({
+    firstname: vine.string().optional(),
+    lastname: vine.string().optional(),
+    type: vine.string().optional(),
+    referentId: vine.string().optional(),
+  })
 )
 
 export const getCustomersValidator = vine.compile(
