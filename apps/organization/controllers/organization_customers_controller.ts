@@ -36,4 +36,15 @@ export default class OrganizationCustomersController {
 
     return this.customerService.create(data)
   }
+
+  async show({ params, bouncer, auth }: HttpContext) {
+    const oidcId = auth.use('jwt').payload?.sub as string
+    const user = await this.userService.findByOidcId(oidcId)
+
+    await bouncer
+      .with('OrganizationCustomerPolicy')
+      .authorize('view', user.organizationId, params.organizationId)
+
+    return this.customerService.findById(params.id)
+  }
 }

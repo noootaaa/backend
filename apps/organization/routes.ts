@@ -20,6 +20,7 @@ router.group(() => {
           router
             .group(() => {
               router.get('/', [OrganizationCustomerController, 'index'])
+              router.get('/:id', [OrganizationCustomerController, 'show'])
               router.post('/', [OrganizationCustomerController, 'create'])
             })
             .prefix('/customers')
