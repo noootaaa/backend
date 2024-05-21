@@ -9,7 +9,7 @@ export const createCustomerValidator = vine.compile(
   vine.object({
     firstname: vine.string(),
     lastname: vine.string(),
-    organizationId: vine.string(),
+    organizationId: vine.string().optional(),
     customerStatusId: vine.string().optional(),
     customerContactId: vine.string().optional(),
   })

@@ -1,5 +1,5 @@
 import db from '@adonisjs/lucid/services/db'
-import HealthException, { HealthErrors } from '#apps/shared/exceptions/health_exception'
+//import HealthException, { HealthErrors } from '#apps/shared/exceptions/health_exception'
 
 export default class HealthService {
   async checkDb(): Promise<{ displayName: string, health: { healthy: boolean, message: string }, meta: any[] }> {

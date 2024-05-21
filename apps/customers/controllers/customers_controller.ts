@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { inject } from '@adonisjs/core'
 import CustomerService from '#apps/customers/services/customer_service'
-import { createCustomerValidator, getCustomersValidator } from '#apps/customers/validators/customer'
+import { getCustomersValidator } from '#apps/customers/validators/customer'
 @inject()
 export default class CustomersController {
   constructor(private customerService: CustomerService) {}
@@ -15,9 +15,9 @@ export default class CustomersController {
     return this.customerService.findAll(data)
   }
 
-  async create({ request }: HttpContext) {
-    const data = await request.validateUsing(createCustomerValidator)
+  async show({ params }: HttpContext) {
+    const customerId = params.customerId
 
-    return this.customerService.create(data)
+    return this.customerService.findById(customerId)
   }
 }

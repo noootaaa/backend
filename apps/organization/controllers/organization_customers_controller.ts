@@ -28,13 +28,17 @@ export default class OrganizationCustomersController {
   async create({ request, auth, bouncer }: HttpContext) {
     const oidcId = auth.use('jwt').payload?.sub as string
     const user = await this.userService.findByOidcId(oidcId)
+    const organizationId = request.param('organizationId')
 
     await bouncer
       .with('OrganizationCustomerPolicy')
-      .authorize('create', user.organizationId, user.organizationId)
+      .authorize('create', user.organizationId, organizationId)
     const data = await request.validateUsing(createCustomerValidator)
 
-    return this.customerService.create(data)
+    return this.customerService.create({
+      ...data,
+      organizationId: data.organizationId ?? organizationId,
+    })
   }
 
   async show({ params, bouncer, auth }: HttpContext) {

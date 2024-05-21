@@ -7,7 +7,7 @@ router.group(() => {
   router
     .group(() => {
       router.get('/', [CustomersController, 'index'])
-      router.post('/', [CustomersController, 'create'])
+      router.get('/:customerId', [CustomersController, 'show'])
     })
     .prefix('/v1/customers')
     .use(middleware.auth({ guards: ['jwt'] }))
