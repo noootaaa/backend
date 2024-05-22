@@ -5,6 +5,8 @@ import Customer from '#apps/companies/models/company'
 import type { HasOne } from '@adonisjs/lucid/types/relations'
 
 export default class CompanyStatus extends BaseModel {
+  static table = 'company_status'
+  
   @column({ isPrimary: true })
   declare id: string
 
