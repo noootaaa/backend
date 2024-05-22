@@ -1,7 +1,7 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'customers'
+  protected tableName = 'companies'
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
@@ -17,16 +17,16 @@ export default class extends BaseSchema {
         .inTable('organizations')
         .onUpdate('CASCADE')
       table
-        .string('customer_status_id')
+        .string('company_status_id')
         .nullable()
         .references('id')
-        .inTable('customer_status')
+        .inTable('company_status')
         .onUpdate('CASCADE')
       table
-        .string('customer_contact_id')
+        .string('company_contact_id')
         .nullable()
         .references('id')
-        .inTable('customer_contacts')
+        .inTable('company_contacts')
         .onUpdate('CASCADE')
       table.
         string('referent_id')

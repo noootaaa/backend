@@ -1,11 +1,10 @@
 import { BaseModel, beforeCreate, column, hasOne } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 import { randomUUID } from 'node:crypto'
-import Customer from '#apps/customers/models/customer'
+import Customer from '#apps/companies/models/company'
 import type { HasOne } from '@adonisjs/lucid/types/relations'
 
-export default class CustomerStatus extends BaseModel {
-  static table = 'customer_status'
+export default class CompanyStatus extends BaseModel {
   @column({ isPrimary: true })
   declare id: string
 
@@ -22,7 +21,7 @@ export default class CustomerStatus extends BaseModel {
   declare updatedAt: DateTime | null
 
   @beforeCreate()
-  static async generateUuid(model: CustomerStatus) {
+  static async generateUuid(model: CompanyStatus) {
     if (model.$dirty.id) {
       model.id = randomUUID()
     }

@@ -5,13 +5,13 @@ import { Infer } from '@vinejs/vine/types'
  * Validator to validate the payload when creating
  * a new customer.ts.
  */
-export const createCustomerValidator = vine.compile(
+export const createCompanyValidator = vine.compile(
   vine.object({
     firstname: vine.string(),
     lastname: vine.string(),
     organizationId: vine.string().optional(),
-    customerStatusId: vine.string().optional(),
-    customerContactId: vine.string().optional(),
+    companyStatusId: vine.string().optional(),
+    companyContactId: vine.string().optional(),
   })
 )
 
@@ -19,7 +19,7 @@ export const createCustomerValidator = vine.compile(
  * Validator to validate the payload when updating
  * an existing customer.ts.
  */
-export const updateCustomerValidator = vine.compile(
+export const updateCompanyValidator = vine.compile(
   vine.object({
     firstname: vine.string().optional(),
     lastname: vine.string().optional(),
@@ -28,13 +28,13 @@ export const updateCustomerValidator = vine.compile(
   })
 )
 
-export const getCustomersValidator = vine.compile(
+export const getCompaniesValidator = vine.compile(
   vine.object({
     page: vine.number().optional(),
     limit: vine.number().optional(),
   })
 )
 
-export type CreateCustomersSchema = Infer<typeof createCustomerValidator>
-export type UpdateCustomersSchema = Infer<typeof updateCustomerValidator>
-export type GetCustomersSchema = Infer<typeof getCustomersValidator>
+export type CreateCompanySchema = Infer<typeof createCompanyValidator>
+export type UpdateCompanySchema = Infer<typeof updateCompanyValidator>
+export type GetCompaniesSchema = Infer<typeof getCompaniesValidator>

@@ -7,7 +7,7 @@ import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import Organization from '#apps/organization/models/organization'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import { randomUUID } from 'node:crypto'
-import Customer from '#apps/customers/models/customer'
+import Company from '#apps/companies/models/company'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -33,11 +33,11 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @belongsTo(() => Organization)
   declare organization: BelongsTo<typeof Organization>
 
-  @hasMany(() => Customer, {
+  @hasMany(() => Company, {
     foreignKey: 'referent_id',
     localKey: 'id',
   })
-  declare customers: HasMany<typeof Customer>
+  declare companies: HasMany<typeof Company>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

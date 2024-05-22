@@ -6,7 +6,7 @@ import { allowGuest, BasePolicy } from '@adonisjs/bouncer'
 import User from '#apps/user/models/user'
 
 @inject()
-export default class OrganizationCustomerPolicy extends BasePolicy {
+export default class OrganizationCompaniesPolicy extends BasePolicy {
   protected payload: JwtPayload
 
   constructor(
@@ -35,7 +35,7 @@ export default class OrganizationCustomerPolicy extends BasePolicy {
 
     return this.permissionResolver
       .createResolve(this.payload.resource_access, 'api')
-      .verifyAccess('view-customers')
+      .verifyAccess('view:companies')
   }
 
   @allowGuest()
@@ -47,6 +47,6 @@ export default class OrganizationCustomerPolicy extends BasePolicy {
     }
     return this.permissionResolver
       .createResolve(this.payload.resource_access, 'api')
-      .verifyAccess('create-customers')
+      .verifyAccess('create:companies')
   }
 }

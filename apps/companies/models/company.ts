@@ -3,11 +3,13 @@ import { DateTime } from 'luxon'
 import { randomUUID } from 'node:crypto'
 import Organization from '#apps/organization/models/organization'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
-import CustomerStatus from '#apps/customers/models/customer_status'
-import CustomerContact from '#apps/customers/models/customer_contact'
 import User from '#apps/user/models/user'
+import CompanyStatus from '#apps/companies/models/company_status'
+import CompanyContact from './company_contact.js'
 
-export default class Customer extends BaseModel {
+export default class Company extends BaseModel {
+  static table = 'companies'
+
   @column({ isPrimary: true })
   declare id: string
 
@@ -24,10 +26,10 @@ export default class Customer extends BaseModel {
   declare organizationId: string
 
   @column()
-  declare customerStatusId: string
+  declare companyStatusId: string
 
   @column()
-  declare customerContactId: string
+  declare companyContactId: string
 
   @column()
   declare referentId: string
@@ -41,11 +43,11 @@ export default class Customer extends BaseModel {
   @belongsTo(() => Organization)
   declare organization: BelongsTo<typeof Organization>
 
-  @belongsTo(() => CustomerStatus)
-  declare customerStatus: BelongsTo<typeof CustomerStatus>
+  @belongsTo(() => CompanyStatus)
+  declare companyStatus: BelongsTo<typeof CompanyStatus>
 
-  @belongsTo(() => CustomerContact)
-  declare customerContact: BelongsTo<typeof CustomerContact>
+  @belongsTo(() => CompanyContact)
+  declare companyContact: BelongsTo<typeof CompanyContact>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -54,7 +56,7 @@ export default class Customer extends BaseModel {
   declare updatedAt: DateTime | null
 
   @beforeCreate()
-  static async generateUuid(model: Customer) {
+  static async generateUuid(model: Company) {
     model.id = randomUUID()
   }
 }

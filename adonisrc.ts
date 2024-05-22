@@ -54,7 +54,7 @@ export default defineConfig({
     () => import('#apps/authentication/routes'),
     () => import('#apps/organization/routes'),
     () => import('#apps/subscriptions/routes'),
-    () => import('#apps/customers/routes'),
+    () => import('#apps/companies/routes'),
     () => import('#apps/health/routes'),
     () => import('#apps/products/routes')
   ],

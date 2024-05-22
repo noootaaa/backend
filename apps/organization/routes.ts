@@ -3,8 +3,8 @@ import { middleware } from '#start/kernel'
 
 const OrganizationController = () =>
   import('#apps/organization/controllers/organizations_controller')
-const OrganizationCustomerController = () =>
-  import('#apps/organization/controllers/organization_customers_controller')
+const OrganizationCompaniesController = () =>
+  import('#apps/organization/controllers/organization_companies_controller')
 
 router.group(() => {
   router
@@ -19,11 +19,11 @@ router.group(() => {
 
           router
             .group(() => {
-              router.get('/', [OrganizationCustomerController, 'index'])
-              router.get('/:id', [OrganizationCustomerController, 'show'])
-              router.post('/', [OrganizationCustomerController, 'create'])
+              router.get('/', [OrganizationCompaniesController, 'index'])
+              router.get('/:id', [OrganizationCompaniesController, 'show'])
+              router.post('/', [OrganizationCompaniesController, 'create'])
             })
-            .prefix('/customers')
+            .prefix('/companies')
         })
         .prefix('/:organizationId')
       router.post('/', [OrganizationController, 'create'])

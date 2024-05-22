@@ -1,14 +1,14 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import CustomerService from '#apps/customers/services/customer_service'
 import { getCustomersByOrganizationIdValidator } from '#apps/organization/validators/organization'
 import { inject } from '@adonisjs/core'
-import { createCustomerValidator } from '#apps/customers/validators/customer'
+import { createCompanyValidator } from '#apps/companies/validators/company'
 import UserService from '#apps/user/services/user_service'
+import CompanyService from '#apps/companies/services/company_service'
 
 @inject()
-export default class OrganizationCustomersController {
+export default class OrganizationCompaniesController {
   constructor(
-    private customerService: CustomerService,
+    private companyService: CompanyService,
     private userService: UserService
   ) {}
 
@@ -17,12 +17,12 @@ export default class OrganizationCustomersController {
     const user = await this.userService.findByOidcId(oidcId)
 
     await bouncer
-      .with('OrganizationCustomerPolicy')
+      .with('OrganizationCompaniesPolicy')
       .authorize('view', user.organizationId, params.organizationId)
     const data = await request.validateUsing(getCustomersByOrganizationIdValidator)
     const organizationId = request.param('organizationId')
 
-    return this.customerService.findByOrganizationId(data, organizationId)
+    return this.companyService.findByOrganizationId(data, organizationId)
   }
 
   async create({ request, auth, bouncer }: HttpContext) {
@@ -31,11 +31,11 @@ export default class OrganizationCustomersController {
     const organizationId = request.param('organizationId')
 
     await bouncer
-      .with('OrganizationCustomerPolicy')
+      .with('OrganizationCompaniesPolicy')
       .authorize('create', user.organizationId, organizationId)
-    const data = await request.validateUsing(createCustomerValidator)
+    const data = await request.validateUsing(createCompanyValidator)
 
-    return this.customerService.create({
+    return this.companyService.create({
       ...data,
       organizationId: data.organizationId ?? organizationId,
     })
@@ -46,9 +46,9 @@ export default class OrganizationCustomersController {
     const user = await this.userService.findByOidcId(oidcId)
 
     await bouncer
-      .with('OrganizationCustomerPolicy')
+      .with('OrganizationCompaniesPolicy')
       .authorize('view', user.organizationId, params.organizationId)
 
-    return this.customerService.findById(params.id)
+    return this.companyService.findById(params.id)
   }
 }

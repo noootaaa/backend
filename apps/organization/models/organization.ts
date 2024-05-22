@@ -3,7 +3,7 @@ import { DateTime } from 'luxon'
 import { randomUUID } from 'node:crypto'
 import User from '#apps/user/models/user'
 import type { BelongsTo, HasMany, HasOne } from '@adonisjs/lucid/types/relations'
-import Customer from '#apps/customers/models/customer'
+import Customer from '#apps/companies/models/company'
 import Subscription from '#apps/subscriptions/models/subscription'
 
 export default class Organization extends BaseModel {
