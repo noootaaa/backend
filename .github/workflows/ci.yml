@@ -38,6 +38,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build-and-push:
+    if: github.event.pull_request.merged == true
     needs: prepare-ci
     uses: ./.github/actions/build-and-push.yml
     with:
@@ -45,7 +46,7 @@ jobs:
       repository: noootaaa/backend
       tag: "staging-${{ needs.prepare-ci.outputs.version }}"
     secrets:
-      CONTAINER_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CONTAINER_REGISTRY_TOKEN: ${{ secrets.PAT }}
       CONTAINER_REGISTRY_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       CONTAINER_REGISTRY_ENDPOINT: ghcr.io
-      PAT: ${{ secrets.GITHUB_TOKEN }}
+      PAT: ${{ secrets.PAT }}
