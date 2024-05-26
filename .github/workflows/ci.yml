@@ -1,0 +1,51 @@
+name: CI/CD Pipeline Staging
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  prepare-ci:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    outputs:
+      pr-title: ${{ steps.pr-title.outputs.title }}
+      version: ${{ steps.extract_version.outputs.result }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Get PR title
+      id: pr-title
+      env: 
+        PR_TITLE: ${{ github.event.pull_request.title }}
+      run: |
+        echo "PR Title: $PR_TITLE"
+        echo "title=$PR_TITLE" >> $GITHUB_OUTPUT
+    - name: Extract version from PR body
+      id: extract_version
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const body = context.payload.pull_request.body
+          console.log(body)
+          const versionMatch = body.match(/- version:\s*(.*)/)
+          if (!versionMatch) {
+            throw new Error("No version specified in the PR body with pattern '- version: <version>'");
+          }
+          return versionMatch[1].trim().replace(/"/g, '')
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  build-and-push:
+    needs: prepare-ci
+    uses: ./.github/actions/build-and-push.yml
+    with:
+      image-name: backend
+      repository: noootaaa/backend
+      tag: "staging-${{ needs.prepare-ci.outputs.version }}"
+    secrets:
+      CONTAINER_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CONTAINER_REGISTRY_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      CONTAINER_REGISTRY_ENDPOINT: ghcr.io
+      PAT: ${{ secrets.GITHUB_TOKEN }}
