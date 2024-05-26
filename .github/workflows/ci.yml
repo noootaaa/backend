@@ -40,7 +40,7 @@ jobs:
   build-and-push:
     if: github.event.pull_request.merged == true
     needs: prepare-ci
-    uses: ./.github/actions/build-and-push.yml
+    uses: ./.github/actions/build-and-push.yml@main
     with:
       image-name: backend
       repository: noootaaa/backend
