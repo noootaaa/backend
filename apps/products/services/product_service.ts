@@ -14,4 +14,12 @@ export default class ProductService {
       .where('organizationId', organizationId)
       .preload('category')
   }
+
+
+  async createByOrganizationId(organizationId: string, data: any) {
+
+    return Product.create({
+      ...data,
+      organizationId
+    })
 }
