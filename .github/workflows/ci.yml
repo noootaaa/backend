@@ -37,6 +37,11 @@ jobs:
           return versionMatch[1].trim().replace(/"/g, '')
       env:
         GITHUB_TOKEN: ${{ secrets.PAT }}
+    - name: Echo version
+      # Echo the outputs version
+      run: |
+        echo "Version: ${{ steps.extract_version.outputs.result }}"
+        echo "version=${{ steps.extract_version.outputs.result }}" >> $GITHUB_OUTPUT
   tag-repository:
     if: github.event.pull_request.merged == true
     needs: prepare-ci
@@ -56,19 +61,6 @@ jobs:
         git push origin "staging-${{ needs.prepare-ci.outputs.version }}"
     env:
       GITHUB_TOKEN: ${{ secrets.PAT }}
-  # staging-release:
-  #   if: github.event.pull_request.merged == true
-  #   needs: prepare-ci
-  #   uses: noootaaa/infrastructure/.github/workflows/staging-release.yml@main
-  #   with:
-  #     image-name: backend
-  #     repository: noootaaa/backend
-  #     tag: "staging-${{ needs.prepare-ci.outputs.version }}"
-  #   secrets:
-  #     CONTAINER_REGISTRY_TOKEN: ${{ secrets.PAT }}
-  #     CONTAINER_REGISTRY_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  #     CONTAINER_REGISTRY_ENDPOINT: ghcr.io
-  #     PAT: ${{ secrets.PAT }}
   build-and-push:
     if: github.event.pull_request.merged == true
     needs: prepare-ci
