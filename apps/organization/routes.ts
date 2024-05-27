@@ -5,7 +5,8 @@ const OrganizationController = () =>
   import('#apps/organization/controllers/organizations_controller')
 const OrganizationCompaniesController = () =>
   import('#apps/organization/controllers/organization_companies_controller')
-
+const OrganizationProductsController = () => 
+  import('#apps/organization/controllers/organization_products_controller')
 router.group(() => {
   router
     .group(() => {
@@ -24,6 +25,11 @@ router.group(() => {
               router.post('/', [OrganizationCompaniesController, 'create'])
             })
             .prefix('/companies')
+
+
+          router.group(() => {
+            router.get('/', [OrganizationProductsController, 'index'])
+          }).prefix('/products')
         })
         .prefix('/:organizationId')
       router.post('/', [OrganizationController, 'create'])
