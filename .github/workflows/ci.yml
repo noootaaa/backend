@@ -36,7 +36,39 @@ jobs:
           }
           return versionMatch[1].trim().replace(/"/g, '')
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT }}
+  tag-repository:
+    if: github.event.pull_request.merged == true
+    needs: prepare-ci
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        repository: noootaaa/backend
+        ref: main
+        token: ${{ secrets.PAT }}
+    - name: Tag repository
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git tag -a "staging-${{ needs.prepare-ci.outputs.version }}" -m "Staging release"
+        git push origin "staging-${{ needs.prepare-ci.outputs.version }}"
+    env:
+      GITHUB_TOKEN: ${{ secrets.PAT }}
+  # staging-release:
+  #   if: github.event.pull_request.merged == true
+  #   needs: prepare-ci
+  #   uses: noootaaa/infrastructure/.github/workflows/staging-release.yml@main
+  #   with:
+  #     image-name: backend
+  #     repository: noootaaa/backend
+  #     tag: "staging-${{ needs.prepare-ci.outputs.version }}"
+  #   secrets:
+  #     CONTAINER_REGISTRY_TOKEN: ${{ secrets.PAT }}
+  #     CONTAINER_REGISTRY_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  #     CONTAINER_REGISTRY_ENDPOINT: ghcr.io
+  #     PAT: ${{ secrets.PAT }}
   build-and-push:
     if: github.event.pull_request.merged == true
     needs: prepare-ci
